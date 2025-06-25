@@ -7,3 +7,5 @@ Small install script to auto install my personal linux toolstack on VM/LXC provi
 
 Use with:</br>
 `curl -fsSL https://raw.githubusercontent.com/Hy-5/lintool/main/lintool.sh | bash -s -- <OptionalFlag>`
+
+By default, without flag, installs all.
