@@ -28,8 +28,8 @@ done
 
 # Distro specific package install (more maybe...)
 install_package() {
-    if command -v apt-get &> /dev/null; then
-        sudo apt-get update -qq && sudo apt-get install -y "$1"
+    if command -v apt &> /dev/null; then
+        sudo apt update -qq && sudo apt install -y "$1"
     elif command -v dnf &> /dev/null; then
         sudo dnf install -y "$1"
     elif command -v yum &> /dev/null; then
