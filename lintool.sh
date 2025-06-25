@@ -72,6 +72,7 @@ install_nvim() {
     fi
 
     echo "Installing nvim-lspconfig..."
+    sudo apt install -y git
     git clone https://github.com/neovim/nvim-lspconfig ~/.config/nvim/pack/nvim/start/nvim-lspconfig
     sudo apt install -y npm
     sudo npm i -g pyright
