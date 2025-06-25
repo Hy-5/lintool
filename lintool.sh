@@ -72,7 +72,7 @@ install_nvim() {
     fi
     
     # Create config directory
-    mkdir -p "$HOME/.config/nvim" "$HOME/.config/nvim/autoload" "$HOME/.config/nvim/colors"
+    mkdir -p "$HOME/.config/nvim" "$HOME/.config/nvim/colors"
     
     # Backup existing config
     if [ -f "$HOME/.config/nvim/init.vim" ]; then
@@ -82,7 +82,6 @@ install_nvim() {
     
     # Download and install config
     curl -fsSL "$REPO_URL/nvim/init.vim" -o "$HOME/.config/nvim/init.vim"
-    curl -fsSL "$REPO_URL/nvim/autoload/plug.vim" -o "$HOME/.config/nvim/autoload/plug.vim"
     curl -fsSL "$REPO_URL/nvim/colors/molokai.vim" -o "$HOME/.config/nvim/colors/molokai.vim"
 
     # Auto-install plugins
