@@ -84,7 +84,12 @@ install_nvim() {
     curl -fsSL "$REPO_URL/nvim/init.vim" -o "$HOME/.config/nvim/init.vim"
     curl -fsSL "$REPO_URL/nvim/autoload/plug.vim" -o "$HOME/.config/nvim/autoload/plug.vim"
     curl -fsSL "$REPO_URL/nvim/colors/molokai.vim" -o "$HOME/.config/nvim/colors/molokai.vim"
-    echo "neovim configuration installed"
+
+    # Auto-install plugins
+    echo "Auto PlugInstalling neovim plugins..."
+    nvim --headless +PlugInstall +qall
+    
+    echo "neovim configuration and plugins installed"
 }
 
 # Main installation
