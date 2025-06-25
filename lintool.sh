@@ -76,6 +76,7 @@ install_nvim() {
     git clone https://github.com/neovim/nvim-lspconfig ~/.config/nvim/pack/nvim/start/nvim-lspconfig
     sudo apt install -y npm
     sudo npm i -g pyright
+    sudo npm install -g neovim
     
     # Create config directory
     mkdir -p "$HOME/.config/nvim" "$HOME/.config/nvim/colors"
