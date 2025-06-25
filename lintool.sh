@@ -72,7 +72,7 @@ install_nvim() {
     fi
     
     # Create config directory
-    mkdir -p "$HOME/.config/nvim"
+    mkdir -p "$HOME/.config/nvim" "$HOME/.config/nvim/autoload" "$HOME/.config/nvim/colors"
     
     # Backup existing config
     if [ -f "$HOME/.config/nvim/init.vim" ]; then
