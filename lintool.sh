@@ -5,7 +5,6 @@
 set -e
 
 REPO_URL="https://raw.githubusercontent.com/Hy-5/lintool/main"
-#https://raw.githubusercontent.com/Hy-5/lintool/main/lintool.sh
 
 # Flags for selective install
 INSTALL_TMUX=false
