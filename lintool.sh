@@ -79,6 +79,7 @@ install_nvim() {
     sudo localectl set-locale LANG=en_US.UTF-8
     set LC_ALL=en_US.UTF-8
     sudo locale-gen "en_US.UTF-8"
+    sudo apt install clangd-12
     
     # Create config directory
     mkdir -p "$HOME/.config/nvim" "$HOME/.config/nvim/colors"
