@@ -76,6 +76,9 @@ install_nvim() {
     sudo apt install -y npm
     sudo npm i -g pyright
     sudo npm install -g neovim
+    sudo localectl set-locale LANG=en_US.UTF-8
+    set LC_ALL=en_US.UTF-8
+    sudo locale-gen "en_US.UTF-8"
     
     # Create config directory
     mkdir -p "$HOME/.config/nvim" "$HOME/.config/nvim/colors"
