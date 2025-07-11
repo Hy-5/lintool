@@ -72,7 +72,15 @@ install_nvim() {
 
     echo "Installing nvim-lspconfig..."
     sudo apt install -y git
-    git clone https://github.com/neovim/nvim-lspconfig ~/.config/nvim/pack/nvim/start/nvim-lspconfig
+    
+    # In case lspconfig already exists, skip git cloning
+    if [ ! -d "$HOME/.config/nvim/pack/nvim/start/nvim-lspconfig" ]; then
+        git clone https://github.com/neovim/nvim-lspconfig ~/.config/nvim/pack/nvim/start/nvim-lspconfig
+    else
+        echo "nvim-lspconfig already exists, skipping clone"
+    fi
+
+
     sudo apt install -y npm
     sudo apt install -y clangd ccls
     sudo npm i -g pyright
