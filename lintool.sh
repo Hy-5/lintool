@@ -77,10 +77,11 @@ install_nvim() {
     if [ ! -d "$HOME/.config/nvim/pack/nvim/start/nvim-lspconfig" ]; then
         git clone https://github.com/neovim/nvim-lspconfig ~/.config/nvim/pack/nvim/start/nvim-lspconfig
     else
-        echo "nvim-lspconfig already exists, skipping clone"
+        echo "nvim-lspconfig already exists, skipping git clone"
     fi
 
 
+    # consider NVM later on instead of npm to allow for agnostic install (raspberry pi on debian trixie bugged out)
     sudo apt install -y npm
     sudo apt install -y clangd ccls
     sudo npm i -g pyright
