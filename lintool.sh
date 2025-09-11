@@ -69,6 +69,10 @@ install_nvim() {
     if ! command -v nvim &> /dev/null; then
         echo "Installing wget..."
         sudo apt install -y wget
+        echo "Installing git..."
+        sudo apt install -y git
+        echo "Installing Make..."
+        sudo apt install -y make
         echo "Installing lua..."
         sudo apt install -y lua5.4
         echo "Installing lua dependencies..."
@@ -85,12 +89,8 @@ install_nvim() {
         rm -rf luarocks-3.12.2.tar.gz
 
 
-        echo "Installing git..."
-        sudo apt install -y git
         echo "Installing ripgrep..."
         sudo apt install -y ripgrep
-        echo "Installing Make..."
-        sudo apt install -y make
 
 
         echo "Installing npm and dependencies..."
