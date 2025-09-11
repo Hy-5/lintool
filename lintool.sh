@@ -81,12 +81,12 @@ install_nvim() {
         echo "Installing unzip..."
         sudo apt install -y unzip
         wget https://luarocks.org/releases/luarocks-3.12.2.tar.gz
-        tar zxpf luarocks-3.12.2.tar.gz
+        sudo tar zxpf luarocks-3.12.2.tar.gz
         cd luarocks-3.12.2
-        ./configure && make && sudo make install
+        sudo ./configure && make && sudo make install
         sudo luarocks install luasocket
         cd ..
-        rm -rf luarocks-3.12.2.tar.gz
+        sudo rm -rf luarocks-3.12.2.tar.gz
 
 
         echo "Installing ripgrep..."
@@ -95,7 +95,7 @@ install_nvim() {
 
         echo "Installing npm and dependencies..."
         sudo apt install -y npm nodejs
-        npm install --global @ast-grep/cli
+        sudo npm install --global @ast-grep/cli
 
 
         echo "Installing latest Neovim version..."
@@ -106,16 +106,13 @@ install_nvim() {
         sudo ln -sf /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim
         sudo rm -rf nvim-linux-x86_64.tar.gz
         echo "Setting up LazyVim..."
-        git clone https://github.com/LazyVim/starter ~/.config/nvim
-        rm -rf ~/.config/nvim/.git
+        sudo git clone https://github.com/LazyVim/starter ~/.config/nvim
+        sudo rm -rf ~/.config/nvim/.git
         echo "Done."
     else
         echo "Another instance of Neovim is already installed."
     fi
 
-    
-    
-    
 }
 
 # Main installation
