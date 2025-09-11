@@ -65,49 +65,29 @@ install_tmux() {
 install_nvim() {
     echo "Installing neovim..."
     
-    # Install neovim if not present
+    # Install neovim from github repo if not present
     if ! command -v nvim &> /dev/null; then
-        install_package neovim
+        echo "Installing git..."
+        sudo apt install -y git
+        echo "Installing curl..."
+        sudo apt install -y curl
+        echo "Installing ripgrep..."
+        sudo apt install -y ripgrep
+        curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+        sudo rm -rf /opt/nvim
+        sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
+        echo "Adding nvim to PATH..."
+        export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
+        sudo rm -rf ~/.nvim-linux-x86_64.tar.gz
+        echo "Setting up LazyVim..."
+        git clone https://github.com/LazyVim/starter ~/.config/nvim
+        rm -rf ~/.config/nvim/.git
+        echo "Done."
     fi
 
-    echo "Installing nvim-lspconfig..."
-    sudo apt install -y git
     
-    # In case lspconfig already exists, skip git cloning
-    if [ ! -d "$HOME/.config/nvim/pack/nvim/start/nvim-lspconfig" ]; then
-        git clone https://github.com/neovim/nvim-lspconfig ~/.config/nvim/pack/nvim/start/nvim-lspconfig
-    else
-        echo "nvim-lspconfig already exists, skipping git clone"
-    fi
-
-
-    # consider NVM later on instead of npm to allow for agnostic install (raspberry pi on debian trixie bugged out)
-    sudo apt install -y npm
-    sudo apt install -y clangd ccls
-    sudo npm i -g pyright
-    sudo npm install -g neovim
-    sudo localectl set-locale LANG=en_US.UTF-8
-    set LC_ALL=en_US.UTF-8
-    sudo locale-gen "en_US.UTF-8"
     
-    # Create config directory
-    mkdir -p "$HOME/.config/nvim" "$HOME/.config/nvim/colors"
     
-    # Backup existing config
-    if [ -f "$HOME/.config/nvim/init.vim" ]; then
-        cp "$HOME/.config/nvim/init.vim" "$HOME/.config/nvim/init.vim.backup"
-        echo "Backed up existing nvim config"
-    fi
-    
-    # Download and install config
-    curl -fsSL "$REPO_URL/nvim/init.vim" -o "$HOME/.config/nvim/init.vim"
-    curl -fsSL "$REPO_URL/nvim/colors/molokai.vim" -o "$HOME/.config/nvim/colors/molokai.vim"
-
-    # Auto-install plugins
-    echo "Auto PlugInstalling neovim plugins..."
-    nvim --headless +PlugInstall +qall
-    
-    echo "neovim configuration and plugins installed"
 }
 
 # Main installation
