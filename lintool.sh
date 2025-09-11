@@ -69,7 +69,13 @@ install_nvim() {
     if ! command -v nvim &> /dev/null; then
         echo "Installing wget..."
         sudo apt install -y wget
+        echo "Installing lua..."
+        sudo apt install -y lua5.4
+        echo "Installing lua dependencies..."
+        sudo apt install -y liblua5.4-dev
         echo "Installing luarocks..."
+        echo "Installing unzip..."
+        sudo apt install -y unzip
         wget https://luarocks.org/releases/luarocks-3.12.2.tar.gz
         tar zxpf luarocks-3.12.2.tar.gz
         cd luarocks-3.12.2
@@ -85,6 +91,14 @@ install_nvim() {
         sudo apt install -y ripgrep
         echo "Installing Make..."
         sudo apt install -y make
+
+
+        echo "Installing npm and dependencies..."
+        sudo apt install -y npm nodejs
+        npm install --global @ast-grep/cli
+
+
+        echo "Installing latest Neovim version..."
         curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
         sudo rm -rf /opt/nvim
         sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
