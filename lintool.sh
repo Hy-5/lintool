@@ -67,10 +67,24 @@ install_nvim() {
     
     # Install neovim from github repo if not present
     if ! command -v nvim &> /dev/null; then
+        echo "Installing wget..."
+        sudo apt install -y wget
+        echo "Installing luarocks..."
+        wget https://luarocks.org/releases/luarocks-3.12.2.tar.gz
+        tar zxpf luarocks-3.12.2.tar.gz
+        cd luarocks-3.12.2
+        ./configure && make && sudo make install
+        sudo luarocks install luasocket
+        cd ..
+        rm -rf luarocks-3.12.2.tar.gz
+
+
         echo "Installing git..."
         sudo apt install -y git
         echo "Installing ripgrep..."
         sudo apt install -y ripgrep
+        echo "Installing Make..."
+        sudo apt install -y make
         curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
         sudo rm -rf /opt/nvim
         sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
