@@ -69,20 +69,20 @@ install_nvim() {
     if ! command -v nvim &> /dev/null; then
         echo "Installing git..."
         sudo apt install -y git
-        echo "Installing curl..."
-        sudo apt install -y curl
         echo "Installing ripgrep..."
         sudo apt install -y ripgrep
         curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
         sudo rm -rf /opt/nvim
         sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
         echo "Adding nvim to PATH..."
-        export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
-        sudo rm -rf ~/.nvim-linux-x86_64.tar.gz
+        sudo ln -sf /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim
+        sudo rm -rf nvim-linux-x86_64.tar.gz
         echo "Setting up LazyVim..."
         git clone https://github.com/LazyVim/starter ~/.config/nvim
         rm -rf ~/.config/nvim/.git
         echo "Done."
+    else
+        echo "Another instance of Neovim is already installed."
     fi
 
     
