@@ -108,6 +108,8 @@ install_nvim() {
         echo "Setting up LazyVim..."
         sudo git clone https://github.com/LazyVim/starter ~/.config/nvim
         sudo rm -rf ~/.config/nvim/.git
+        sudo rm -rf luarocks-3.12.2/
+        grep -q 'alias vim="nvim"' ~/.bashrc || echo 'alias vim="nvim"' >> ~/.bashrc && source ~/.bashrc
         echo "Done."
     else
         echo "Another instance of Neovim is already installed."
