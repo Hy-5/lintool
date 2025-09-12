@@ -67,35 +67,22 @@ install_nvim() {
     
     # Install neovim from github repo if not present
     if ! command -v nvim &> /dev/null; then
-        echo "Installing wget..."
-        sudo apt install -y wget
-        echo "Installing git..."
-        sudo apt install -y git
-        echo "Installing Make..."
-        sudo apt install -y make
-        echo "Installing lua..."
-        sudo apt install -y lua5.4
-        echo "Installing lua dependencies..."
-        sudo apt install -y liblua5.4-dev
+        echo "Installing dependencies..."
+        sudo apt install -y wget git make lua5.4 liblua5.4-dev unzip ripgrep npm nodejs
         echo "Installing luarocks..."
-        echo "Installing unzip..."
-        sudo apt install -y unzip
         wget https://luarocks.org/releases/luarocks-3.12.2.tar.gz
-        sudo tar zxpf luarocks-3.12.2.tar.gz
+        tar zxpf luarocks-3.12.2.tar.gz
         cd luarocks-3.12.2
-        sudo ./configure && make && sudo make install
+        ./configure && make && sudo make install
         sudo luarocks install luasocket
         cd ..
-        sudo rm -rf luarocks-3.12.2.tar.gz
+        rm -rf luarocks-3.12.2.tar.gz
 
-
-        echo "Installing ripgrep..."
-        sudo apt install -y ripgrep
-
-
-        echo "Installing npm and dependencies..."
-        sudo apt install -y npm nodejs
-        sudo npm install --global @ast-grep/cli
+        if [[ -d "$HOME/.npm-global" ]]; then
+            npm install --global @ast-grep/cli
+        else
+            sudo npm install --global @ast-grep/cli
+        fi
 
 
         echo "Installing latest Neovim version..."
@@ -104,11 +91,11 @@ install_nvim() {
         sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
         echo "Adding nvim to PATH..."
         sudo ln -sf /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim
-        sudo rm -rf nvim-linux-x86_64.tar.gz
+        rm -rf nvim-linux-x86_64.tar.gz
         echo "Setting up LazyVim..."
-        sudo git clone https://github.com/LazyVim/starter ~/.config/nvim
-        sudo rm -rf ~/.config/nvim/.git
-        sudo rm -rf luarocks-3.12.2/
+        git clone https://github.com/LazyVim/starter ~/.config/nvim
+        rm -rf ~/.config/nvim/.git
+        rm -rf luarocks-3.12.2/
         grep -q 'alias vim="nvim"' ~/.bashrc || echo 'alias vim="nvim"' >> ~/.bashrc && source ~/.bashrc
         echo "Done."
     else
