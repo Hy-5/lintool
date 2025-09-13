@@ -96,7 +96,8 @@ install_nvim() {
         git clone https://github.com/LazyVim/starter ~/.config/nvim
         rm -rf ~/.config/nvim/.git
         rm -rf luarocks-3.12.2/
-        grep -q 'alias vim="nvim"' ~/.bashrc || echo 'alias vim="nvim"' >> ~/.bashrc && source ~/.bashrc
+        grep -q 'alias vim="nvim"' ~/.bashrc || echo 'alias vim="nvim"' >> ~/.bashrc
+        sleep 2 && source ~/.bashrc
         echo "Done."
     else
         echo "Another instance of Neovim is already installed."
