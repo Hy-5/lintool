@@ -14,35 +14,63 @@ INSTALL_ALL=true
 DELETE_MODE=false
 DELETE_TARGET=""
 
+show_help() {
+    cat << "EOF"
+Lintool - personal Linux setup script
+
+Install:
+  curl -fsSL lin.ismco.me | bash
+  curl -fsSL lin.ismco.me | bash -s -- -tmux
+  curl -fsSL lin.ismco.me | bash -s -- -nvim
+
+Delete:
+  curl -fsSL lin.ismco.me | bash -s -- -del
+  curl -fsSL lin.ismco.me | bash -s -- -del nvim
+  curl -fsSL lin.ismco.me | bash -s -- -del tmux
+
+Help:
+  curl -fsSL lin.ismco.me | bash -s -- -help
+
+No flag installs everything.
+Available install flags: -tmux, -nvim
+Available delete targets: all, tmux, nvim
+EOF
+}
+
 # Arguments parsing
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        -tmux)
-            INSTALL_TMUX=true
-            INSTALL_ALL=false
-            shift
-            ;;
-        -nvim)
-            INSTALL_NVIM=true
-            INSTALL_ALL=false
-            shift
-            ;;
-        -del)
-            DELETE_MODE=true
-            INSTALL_ALL=false
+    -help|--help|-h)
+        show_help
+        exit 0
+        ;;
+    -tmux)
+        INSTALL_TMUX=true
+        INSTALL_ALL=false
+        shift
+        ;;
+    -nvim)
+        INSTALL_NVIM=true
+        INSTALL_ALL=false
+        shift
+        ;;
+    -del)
+        DELETE_MODE=true
+        INSTALL_ALL=false
 
-            if [[ -n "$2" && "$2" != -* ]]; then
-                DELETE_TARGET="$2"
-                shift 2
-            else
-                DELETE_TARGET="all"
-                shift
-            fi
-            ;;
-        *)
-            echo "Unknown argument: $1"
-            exit 1
-            ;;
+        if [[ -n "$2" && "$2" != -* ]]; then
+            DELETE_TARGET="$2"
+            shift 2
+        else
+            DELETE_TARGET="all"
+            shift
+        fi
+        ;;
+    *)
+        echo "Unknown argument: $1"
+        echo "Run with -help for usage."
+        exit 1
+        ;;
     esac
 done
 
