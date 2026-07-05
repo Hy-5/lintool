@@ -10,17 +10,38 @@ REPO_URL="https://raw.githubusercontent.com/Hy-5/lintool/main"
 INSTALL_TMUX=false
 INSTALL_NVIM=false
 INSTALL_ALL=true
+# Flags for selective uninstall
+DELETE_MODE=false
+DELETE_TARGET=""
 
 # Arguments parsing
-for arg in "$@"; do
-    case $arg in
+while [[ $# -gt 0 ]]; do
+    case "$1" in
         -tmux)
             INSTALL_TMUX=true
             INSTALL_ALL=false
+            shift
             ;;
         -nvim)
             INSTALL_NVIM=true
             INSTALL_ALL=false
+            shift
+            ;;
+        -del)
+            DELETE_MODE=true
+            INSTALL_ALL=false
+
+            if [[ -n "$2" && "$2" != -* ]]; then
+                DELETE_TARGET="$2"
+                shift 2
+            else
+                DELETE_TARGET="all"
+                shift
+            fi
+            ;;
+        *)
+            echo "Unknown argument: $1"
+            exit 1
             ;;
     esac
 done
@@ -37,6 +58,20 @@ install_package() {
         sudo pacman -S --noconfirm "$1"
     else
         echo "Error: Cannot install $1 - unsupported package manager"
+        exit 1
+    fi
+}
+remove_package() {
+    if command -v apt &> /dev/null; then
+        sudo apt remove -y "$1"
+    elif command -v dnf &> /dev/null; then
+        sudo dnf remove -y "$1"
+    elif command -v yum &> /dev/null; then
+        sudo yum remove -y "$1"
+    elif command -v pacman &> /dev/null; then
+        sudo pacman -Rns --noconfirm "$1"
+    else
+        echo "Error: Cannot remove $1 - unsupported package manager"
         exit 1
     fi
 }
@@ -59,6 +94,22 @@ install_tmux() {
     # Download and install config
     curl -fsSL "$REPO_URL/tmux/tmux.conf" -o "$HOME/.tmux.conf"
     echo "tmux configuration installed"
+}
+delete_tmux() {
+    echo "Deleting tmux configuration and package..."
+
+    rm -f "$HOME/.tmux.conf"
+
+    if [ -f "$HOME/.tmux.conf.backup" ]; then
+        mv "$HOME/.tmux.conf.backup" "$HOME/.tmux.conf"
+        echo "Restored previous .tmux.conf backup"
+    fi
+
+    if command -v tmux &> /dev/null; then
+        remove_package tmux
+    fi
+
+    echo "tmux deleted."
 }
 
 # Neovim config details
@@ -109,7 +160,50 @@ install_nvim() {
         mkdir -p "$HOME/.config/nvim/lua/plugins" && curl -fsSL "$REPO_URL/nvim/colorscheme.lua" -o "$HOME/.config/nvim/lua/plugins/colorscheme.lua"
         echo "colorscheme configuration installed. Defaulting to molokai."
 }
+delete_nvim() {
+    echo "Deleting Neovim, LazyVim, and related configuration..."
 
+    # Remove LazyVim / Neovim config
+    rm -rf "$HOME/.config/nvim"
+
+    # Remove Neovim installed from GitHub tarball
+    sudo rm -f /usr/local/bin/nvim
+    sudo rm -rf /opt/nvim-linux-x86_64
+    sudo rm -rf /opt/nvim
+
+    # Remove leftover downloaded/build files if present
+    rm -rf "$HOME/nvim-linux-x86_64.tar.gz"
+    rm -rf "$HOME/luarocks-3.12.2"
+    rm -rf "$HOME/luarocks-3.12.2.tar.gz"
+
+    # Remove vim alias added by the script
+    sed -i '/alias vim="nvim"/d' "$HOME/.bashrc"
+
+    echo "Neovim deleted except for some dependencies (nodejs and npm)."
+}
+
+if [ "$DELETE_MODE" = true ]; then
+    case "$DELETE_TARGET" in
+        all)
+            delete_tmux
+            delete_nvim
+            ;;
+        tmux)
+            delete_tmux
+            ;;
+        nvim|neovim)
+            delete_nvim
+            ;;
+        *)
+            echo "Unknown delete target: $DELETE_TARGET"
+            echo "Valid targets: all, tmux, nvim"
+            exit 1
+            ;;
+    esac
+
+    echo "Deletion complete!"
+    exit 0
+fi
 # Main installation
 if [ "$INSTALL_ALL" = true ]; then
     install_tmux
