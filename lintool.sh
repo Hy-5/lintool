@@ -102,7 +102,10 @@ install_nvim() {
     else
         echo "Another instance of Neovim is already installed."
     fi
-
+        mkdir -p "$HOME/.config/nvim/lua/plugins" && curl -fsSL "$REPO_URL/nvim/blink.lua" -o "$HOME/.config/nvim/lua/plugins/blink.lua"
+        echo "blink.lua plugin configuration installed"
+        mkdir -p "$HOME/.config/nvim/colors" && curl -fsSL "$REPO_URL/nvim/colors/molokai.vim" -o "$HOME/.config/nvim/colors/molokai.vim"
+        echo "molokai colorscheme installed"
 }
 
 # Main installation
