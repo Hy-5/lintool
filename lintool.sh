@@ -175,6 +175,11 @@ install_nvim() {
         git clone https://github.com/LazyVim/starter ~/.config/nvim
         rm -rf ~/.config/nvim/.git
         rm -rf luarocks-3.12.2/
+        echo "Installing additional Neovim dependencies..."
+        sudo apt install fd-find
+        sudo apt install fzf
+        sudo apt install tree-sitter-cli
+        echo "Additional Neovim dependencies done."
         grep -q 'alias vim="nvim"' ~/.bashrc || echo 'alias vim="nvim"' >> ~/.bashrc
         sleep 2 && source ~/.bashrc
         echo "Done."
