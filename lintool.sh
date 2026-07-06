@@ -178,6 +178,7 @@ install_nvim() {
         echo "Installing additional Neovim dependencies..."
         sudo apt install fd-find
         sudo apt install fzf
+        sudo apt install lua5.1
         sudo apt install tree-sitter-cli
         echo "Additional Neovim dependencies done."
         grep -q 'alias vim="nvim"' ~/.bashrc || echo 'alias vim="nvim"' >> ~/.bashrc
