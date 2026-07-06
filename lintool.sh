@@ -181,6 +181,9 @@ install_nvim() {
         sudo apt install lua5.1
         sudo apt install tree-sitter-cli
         echo "Additional Neovim dependencies done."
+        echo "Installing dev dependencies (build essential)..."
+        sudo apt install build-essential
+        echo "Dev dependencies installed."
         grep -q 'alias vim="nvim"' ~/.bashrc || echo 'alias vim="nvim"' >> ~/.bashrc
         sleep 2 && source ~/.bashrc
         echo "Done."
