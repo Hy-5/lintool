@@ -196,6 +196,8 @@ install_nvim() {
         echo "molokai colorscheme installed."
         mkdir -p "$HOME/.config/nvim/lua/plugins" && curl -fsSL "$REPO_URL/nvim/colorscheme.lua" -o "$HOME/.config/nvim/lua/plugins/colorscheme.lua"
         echo "colorscheme configuration installed. Defaulting to molokai."
+        mkdir -p "$HOME/.config/nvim/lua/config" && curl -fsSL "$REPO_URL/nvim/options.lua" -o "$HOME/.config/nvim/lua/config/options.lua"
+        echo "Lazyvim options installed. Defaulting to absolute line number instead of relative."
 }
 delete_nvim() {
     echo "Deleting Neovim, LazyVim, and related configuration..."
